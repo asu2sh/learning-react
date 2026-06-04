@@ -142,3 +142,80 @@ function getBooks() {
 function getBook(id) {
   return data.find((d) => d.id === id);
 }
+
+
+//! Destructuring
+
+const book = getBook(2);
+
+const { author, title, hasMovieAdaptation, genres, pages } = book;
+console.log(author, title, hasMovieAdaptation, genres)
+
+// Rest
+const [primaryGenre, secondaryGenre, ...otherGenres] = genres;
+console.log(primaryGenre, secondaryGenre, otherGenres)
+
+// Spread
+const newGeneres = [...genres, "epic fantasy"]
+console.log(newGeneres)
+
+const updatedBook = { 
+  ...book,
+  // Adding a new property
+  moviePublicationDate: "2001-12-19",
+  // Overwrite an existing property
+  pages: 1210 
+}
+console.log(updatedBook.moviePublicationDate, updatedBook.pages)
+
+
+//! Template Literals
+
+const summary = `${title} is a book written by ${author}, and published in ${updatedBook.publicationDate.split("-")[0]}.`
+console.log(summary)
+
+
+//! Ternary Operators
+
+const pagesRange = pages > 1000 ? 'over a thousand' : 'less than 1000';
+console.log(`${summary} And has ${pagesRange} pages.`)
+
+
+//! Arrow Function
+
+const getYearFromDate = (date) => date.split("-")[0]
+console.log(getYearFromDate(updatedBook.moviePublicationDate))
+
+
+//! Short-Circuiting
+
+console.log("asu2sh" && "goat" && "hellboy")
+console.log(0 && "asu2sh")
+
+console.log(true || "asu2sh")
+console.log(false || 0 || "asu2sh")
+
+const spanishTranslation = book.translations.spanish || "Not Translated"
+console.log(spanishTranslation)
+
+const reviewsCount = book.reviews.librarything.reviewsCount
+console.log(reviewsCount)
+
+const wrongCount = reviewsCount || "No Data"
+console.log(wrongCount)
+
+// Null Coalescent Operator
+const rightCount = reviewsCount ?? "No Data"
+console.log(rightCount)
+
+
+//! Option Chaining
+
+function getTotalReviewCount(book) {
+  const goodreads = book.reviews.goodreads.reviewsCount;
+  // optional changing using ?.
+  const librarything = book.reviews.librarything?.reviewsCount ?? 0;
+  return goodreads + librarything
+}
+
+console.log(getTotalReviewCount(book))
